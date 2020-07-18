@@ -1,0 +1,45 @@
+@extends('layouts.home_admin')
+
+@section('title', 'Edit Ca sĩ')
+
+@section('sidebar')
+@parent
+<p>Ca sĩ.</p>
+@endsection
+
+@section('content')
+<div class="col-12">
+
+    <form action="{{ route('singer.update',$singers->id) }}" method="POST" class="needs-validation" novalidate>
+        @csrf
+        @method('PUT')
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label"><i class="fa fa-user" aria-hidden="true"></i> Tên
+                ca sĩ</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="validationTooltipUsername" placeholder="Hồ Ngọc Hà..."
+                    aria-describedby="validationTooltipUsernamePrepend" name="singername" required value="{{$singers->singername}}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label"><i class="fa fa-sticky-note"
+                    aria-hidden="true"></i> Ghi chú</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="note" value="{{$singers->note}}"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <div class="form-check">
+                
+                    <input type="checkbox" class="custom-control-input" id="customCheck1" name="active" @if ($singers->active === 1) checked @else nochecked @endif>
+                    <label class="custom-control-label" for="customCheck1">Sử dụng</label>
+                </div>
+            </div>
+        </div>
+        @include('admin.checkErrorForm')
+        <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+</div>
+@endsection

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Auth\Middleware\Authenticate;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,13 +13,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return 123123123;
-    // return view('welcome');
+Route::get('/nopermission', function(){
+    return '<center><h1>BẠN KHÔNG CÓ QUYỀN TRUY CẬP VÀO ADMIN!</h1>
+    <a href="{{asset(/)}}">Về trang chủ</a>
+    <center>';
+})->name('nopermission');
+
+Route::prefix('admin')->middleware('auth')->middleware('checkuser')->group(function(){
+    Route::get('/',function(){
+        return view('admin.index', ['namepage' => 'Trang chủ']);
+    })->name('trangchu');
+    Route::resource('/singer', 'SingerController')->middleware('auth');
 });
 
-Route::prefix('admin')->group(function(){
-    Route::get('/',function(){
-        return view('admin.index');;
-    })->name('trangchu');
-});
+
+// Route::get('admincp/login', ['as' => 'getLogin', 'uses' => 'Admin\AdminLoginController@getLogin']);
+// Route::post('admincp/login', ['as' => 'postLogin', 'uses' => 'Admin\AdminLoginController@postLogin']);
+// Route::get('admincp/logout', ['as' => 'getLogout', 'uses' => 'Admin\AdminLoginController@getLogout']);
+
+// Route::group(['middleware' => 'checkAdminLogin', 'prefix' => 'admincp', 'namespace' => 'Admin'], function() {
+// 	Route::get('/', function() {
+// 		return view('admin.home');
+// 	});
+// });
+
+
+
+Auth::routes();
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
