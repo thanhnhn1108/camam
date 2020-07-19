@@ -21,7 +21,7 @@ class SingerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resources.
      *
      * @return \Illuminate\Http\Response
      */
